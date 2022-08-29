@@ -2,7 +2,7 @@ import { Command } from "commander";
 import airdropCommand from "./commands/airdrop";
 
 const program = new Command();
-
+program.name("hunnys-cli");
 program
   .command("airdrop <csv>")
   .option(

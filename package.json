@@ -8,8 +8,9 @@
   "scripts": {
     "postinstall": "yarn types",
     "types": "typechain --target ethers-v5 --out-dir src/typechain contract/*.json",
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node16 --outfile=dist/index.js",
-    "cli": "yarn build && node dist/index.js"
+    "build": "esbuild src/index.ts --log-level=silent  --bundle --platform=node --target=node16 --outfile=dist/index.js",
+    "cli": "yarn -s build && node dist/index.js",
+    "airdrop": "yarn -s cli airdrop"
   },
   "dependencies": {
     "commander": "^9.4.0",
