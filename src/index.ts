@@ -14,8 +14,16 @@ program
   .option("-f, --from <fromAddress>", "The from address to send from")
   .option("-d, --data <data>", "The optional data to send with the transaction")
   .option("--count <count>", "The number of transactions to send")
-  .action(async (csv, { privateKey, rpcUrl, contract, from, data, count }) => {
-    await airdropCommand(csv, privateKey, rpcUrl, contract, from, data);
+  .action(async (csv, { privateKey, rpc, contract, from, data, count }) => {
+    await airdropCommand({
+      csv,
+      privateKey,
+      rpcUrl: rpc,
+      contractAddress: contract,
+      fromAddress: from,
+      data,
+      count: Number(count),
+    });
   });
 
 program.parse(process.argv);
