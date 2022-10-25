@@ -1,7 +1,7 @@
 import fs from "fs";
 import { parse } from "csv-parse/sync";
 import { Wallet, providers, utils, BigNumber } from "ethers";
-import { HunnysCollab__factory } from "../typechain";
+import { IERC1155__factory } from "../typechain";
 import { retryWithBackoff } from "../retry";
 
 interface IAirdropRow {
@@ -47,7 +47,7 @@ export default async function airdrop({
   const signer = wallet.connect(provider);
 
   // Create the contract instance
-  const contract = HunnysCollab__factory.connect(contractAddress, signer);
+  const contract = IERC1155__factory.connect(contractAddress, signer);
 
   // Send the transactions
   const failedAddresses: string[] = [];

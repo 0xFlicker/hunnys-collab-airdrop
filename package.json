@@ -4,25 +4,36 @@
   "description": "Batch transfer for Hunnys collab contract",
   "main": "dist/index.js",
   "author": "0xflick <cmdrnft@protonmail.com>",
+  "type": "module",
   "license": "MIT",
   "scripts": {
-    "postinstall": "yarn types",
-    "types": "typechain --target ethers-v5 --out-dir src/typechain contract/*.json",
-    "build": "esbuild src/index.ts --log-level=silent  --bundle --platform=node --target=node16 --outfile=dist/index.js",
+    "types": "yarn compile && yarn typechain",
+    "compile": "yarn solcjs --abi --output-dir abi  --pretty-json --base-path node_modules/erc721a/contracts/ node_modules/erc721a/contracts/IERC721A.sol && mv abi/IERC721A_sol_IERC721A.abi abi/IERC721A.json",
+    "typechain": "typechain --target ethers-v5 --out-dir src/typechain abi/*.json",
+    "build": "esbuild src/index.ts --log-level=silent  --banner:js=\"import { createRequire } from 'module';const require = createRequire(import.meta.url);\" --platform=node --format=esm --bundle --target=node16.14 --external:ipfs-http-client --outfile=dist/index.js",
     "cli": "yarn -s build && node dist/index.js",
-    "airdrop": "yarn -s cli airdrop"
+    "airdrop": "yarn -s cli airdrop",
+    "metadata": "yarn -s cli metadata"
   },
   "dependencies": {
     "commander": "^9.4.0",
     "csv-parse": "^5.3.0",
-    "ethers": "^5.7.0"
+    "erc721a": "^4.2.3",
+    "ethers": "^5.7.0",
+    "ipfs-http-client": "^59.0.0",
+    "node-fetch": "^3.2.10",
+    "rxjs": "^7.5.7"
   },
   "devDependencies": {
     "@typechain/ethers-v5": "^10.1.0",
     "@types/commander": "^2.12.2",
     "@types/node": "^18.7.13",
     "esbuild": "^0.15.5",
+    "solc": "^0.8.17",
     "typechain": "^8.1.0",
     "typescript": "^4.8.2"
+  },
+  "resolutions": {
+    "node-fetch": "^2.6.7"
   }
 }

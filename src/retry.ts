@@ -1,3 +1,5 @@
+import { retry } from "rxjs";
+
 export async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -19,4 +21,11 @@ export async function retryWithBackoff<T>(
       await sleep(backoff);
     }
   }
+}
+
+export function backOff(maxTries: number, ms: number) {
+  return retry({
+    count: maxTries,
+    delay: ms,
+  });
 }
