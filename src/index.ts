@@ -8,6 +8,7 @@ import airdropCommand from "./commands/airdrop";
 import { providers } from "ethers";
 import { IERC721A__factory } from "./typechain";
 import { ownersOfTrait } from "./commands/ownersOfTrait";
+import { downloadMetadata } from "./commands/opensea";
 
 const program = new Command();
 program.name("hunnys-cli");
@@ -101,5 +102,15 @@ program
       });
     }
   );
+
+const openseaCommand = program.command("opensea");
+
+openseaCommand
+  .command("metadata")
+  .option("-s, --slug <slug>", "collection slug")
+  .option("-k, --key <key>", "opensea api key")
+  .action(async ({ slug, key }) => {
+    await downloadMetadata({ collectionSlug: slug, apiKey: key });
+  });
 
 program.parse(process.argv);
